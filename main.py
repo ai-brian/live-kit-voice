@@ -14,6 +14,7 @@ load_dotenv()
 
 class Assistant(Agent):
     def __init__(self) -> None:
+        # brian: instructions are a required field
         super().__init__(instructions="You are a helpful voice AI assistant.")
 
 
@@ -53,6 +54,9 @@ async def entrypoint(ctx: agents.JobContext):
     # end audio publishing
     
     session = AgentSession(
+        #brian: comment out the llm to make this a dumb agent so we can handle 
+        # connecting, loading routines/tools, and handle messages
+        
         #llm=openai.realtime.RealtimeModel(voice="ash"),
     )
 
