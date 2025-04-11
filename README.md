@@ -17,7 +17,7 @@ We can setup a demo environment using Twilio SIP trunks and LiveKit Cloud to hos
     LIVEKIT_API_KEY=(ask Brian)  
     LIVEKIT_API_SECRET=(ask Brian)  
     LIVEKIT_URL=wss://voice-dm3jqtxb.livekit.cloud  
-    OPENAI_AIP_KEY=(your key)  
+    OPENAI_API_KEY=(your key)  
 2. run `python main.py dev` this will connect to the LiveKit cloud server and create an agent. The pseudo code in there now won't run but can be played with
 3. Call 888-901-9823
 
