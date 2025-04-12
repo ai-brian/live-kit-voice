@@ -24,6 +24,6 @@ We can setup a demo environment using Twilio SIP trunks and LiveKit Cloud to hos
 ### Why LiveKit?
 
  - It's modern, well documented, developer friendly, and works. Other Python SIP libraries are old, not well documented and extremely hard to configure
- - It should be easy to deploy. The LiveKit and SIP servers are containerized and need no development. All the code to interface with the service can be done in Python within Voice Server
+ - It should be easy to deploy. The LiveKit and SIP servers are containerized and need no development. All the code to interface with the service can be done in Python within Voice Server. https://docs.livekit.io/home/self-hosting/deployment/
 
 

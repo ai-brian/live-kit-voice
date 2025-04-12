@@ -20,38 +20,6 @@ class Assistant(Agent):
 
 async def entrypoint(ctx: agents.JobContext):
     await ctx.connect()
-
-    # brian: 
-    # code from: https://docs.livekit.io/agents/build/media/#publishing
-    # to setup audio publishing from OpenAI 
-    source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
-    
-    # brian: change this to rtc.RemoteAudioTrack? 
-    track = rtc.LocalAudioTrack.create_audio_track("example-track", source)
-    
-    # since the agent is a participant, our audio I/O is its "microphone"
-    # brian: ?????
-    options = rtc.TrackPublishOptions(source=rtc.TrackSource.SOURCE_MICROPHONE)
-    # ctx.agent is an alias for ctx.room.local_participant
-    publication = await ctx.agent.publish_track(track, options)
-
-    frequency = 440
-    async def _sinewave():
-        audio_frame = rtc.AudioFrame.create(SAMPLE_RATE, NUM_CHANNELS, SAMPLES_PER_CHANNEL)
-        audio_data = np.frombuffer(audio_frame.data, dtype=np.int16)
-
-        time = np.arange(SAMPLES_PER_CHANNEL) / SAMPLE_RATE
-        total_samples = 0
-        while True:
-            time = (total_samples + np.arange(SAMPLES_PER_CHANNEL)) / SAMPLE_RATE
-            sinewave = (AMPLITUDE * np.sin(2 * np.pi * frequency * time)).astype(np.int16)
-            np.copyto(audio_data, sinewave)
-
-            # send this frame to the track
-            await source.capture_frame(frame)
-            total_samples += samples_per_channel
-
-    # end audio publishing
     
     session = AgentSession(
         #brian: comment out the llm to make this a dumb agent so we can handle 
@@ -86,7 +54,9 @@ async def handle_caller_audio(track: rtc.Track):
         audio_stream = rtc.AudioStream(track)
         async for event in audio_stream:
             # Do something here to process event.frame
-            # Decode the Opus to PCM here and send to OpenAI Realtime
+            # The PCM audio bytes are already here so can be sent to openai as is
+            frame = event.frame
+            pcm_bytes = frame.data.tobytes()
             pass
         await audio_stream.aclose()
 
